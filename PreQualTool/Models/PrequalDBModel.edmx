@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PrequalDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Applicants">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nchar" MaxLength="10" />
+          <Property Name="SecondName" Type="nchar" MaxLength="10" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="Income" Type="int" />
+          <Property Name="CardID" Type="int" />
+        </EntityType>
+        <EntityType Name="Cards">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="255" />
+          <Property Name="PromoMessage" Type="nchar" MaxLength="255" />
+          <Property Name="APR" Type="float" />
+          <Property Name="Image" Type="nchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK__Applicant__CardI__02FC7413">
+          <End Role="Cards" Type="Self.Cards" Multiplicity="0..1" />
+          <End Role="Applicants" Type="Self.Applicants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cards">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Applicants">
+              <PropertyRef Name="CardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PrequalDBModelStoreContainer">
+          <EntitySet Name="Applicants" EntityType="Self.Applicants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cards" EntityType="Self.Cards" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Applicant__CardI__02FC7413" Association="Self.FK__Applicant__CardI__02FC7413">
+            <End Role="Cards" EntitySet="Cards" />
+            <End Role="Applicants" EntitySet="Applicants" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PrequalDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Applicant">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="FirstName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="SecondName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="Income" Type="Int32" />
+          <Property Name="CardID" Type="Int32" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Card" Relationship="PrequalDBModel.FK__Applicant__CardI__02FC7413" FromRole="Applicant" ToRole="Card" />
+        </EntityType>
+        <EntityContainer Name="PrequalDBEntitySettings" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Applicants" EntityType="Self.Applicant" />
+          <EntitySet Name="Cards" EntityType="PrequalDBModel.Card" />
+          <AssociationSet Name="FK__Applicant__CardI__02FC7413" Association="PrequalDBModel.FK__Applicant__CardI__02FC7413">
+            <End Role="Card" EntitySet="Cards" />
+            <End Role="Applicant" EntitySet="Applicants" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Card">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="PromoMessage" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="APR" Type="Double" />
+          <Property Name="Image" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Applicants" Relationship="PrequalDBModel.FK__Applicant__CardI__02FC7413" FromRole="Card" ToRole="Applicant" />
+        </EntityType>
+        <Association Name="FK__Applicant__CardI__02FC7413">
+          <End Type="PrequalDBModel.Card" Role="Card" Multiplicity="0..1" />
+          <End Type="PrequalDBModel.Applicant" Role="Applicant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Applicant">
+              <PropertyRef Name="CardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PrequalDBModelStoreContainer" CdmEntityContainer="PrequalDBEntitySettings">
+          <EntitySetMapping Name="Applicants">
+            <EntityTypeMapping TypeName="PrequalDBModel.Applicant">
+              <MappingFragment StoreEntitySet="Applicants">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="SecondName" ColumnName="SecondName" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Income" ColumnName="Income" />
+                <ScalarProperty Name="CardID" ColumnName="CardID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cards">
+            <EntityTypeMapping TypeName="PrequalDBModel.Card">
+              <MappingFragment StoreEntitySet="Cards">
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="APR" ColumnName="APR" />
+                <ScalarProperty Name="PromoMessage" ColumnName="PromoMessage" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

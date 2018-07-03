@@ -1,0 +1,27 @@
+﻿@model PreQualTool.Models.Card
+
+@{
+    ViewBag.Title = "Card";
+}
+
+<h2>This card has been selected for you:</h2>
+
+<div>
+    @{if (Model.Id != 0) 
+        { 
+            <h4>@Html.DisplayFor(model => model.Name)</h4>            
+            <img src="@Html.DisplayFor(model => model.Image)" alt="@Html.DisplayFor(model => model.Name)">
+            <br>
+            @Html.DisplayFor(model => model.PromoMessage)
+            <br>
+            @Html.DisplayFor(model => model.APR) <text>% APR</text>
+        }
+        else
+        {
+            <h4>@Html.DisplayFor(model => model.PromoMessage)</h4>
+        }
+     }
+</div>
+<p>
+    @Html.ActionLink("Resubmit", "ApplicationForm")
+</p>
